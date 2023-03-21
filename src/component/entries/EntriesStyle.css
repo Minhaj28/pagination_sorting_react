@@ -1,5 +1,4 @@
-td,
-th {
+td,th {
   border: 1px solid #777;
   padding: 0.5rem;
   text-align: center;
@@ -17,9 +16,9 @@ caption {
 }
 
 .table {
-  margin: auto;
+  /* margin: auto;
   margin-bottom: 10px;
-  padding: 5px;
+  padding: 5px; */
 }
 #sort {
   margin-bottom: 10px;

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { getData } from "../services";
 
 import "./EntriesStyle.css";
-
-const API_URL = "https://api.publicapis.org/entries";
 
 const Entries = () => {
   const [loading, setLoading] = useState(true);
@@ -13,10 +12,9 @@ const Entries = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_URL);
-        const json = await response.json();
-        setData(json.entries);
-        setCurrentPage(json.entries.slice(count, count + 10));
+        const remoteData = await getData();
+        setData(remoteData);
+        setCurrentPage(remoteData.slice(count, count + 10));
         setLoading(false);
       } catch (err) {
         alert("Loading Failed....");

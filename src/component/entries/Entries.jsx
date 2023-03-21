@@ -1,42 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { getData } from "../services";
+import React, { useState } from "react";
+import { useEntries } from "../hooks";
+import { handleSort } from "../services";
 
 import "./EntriesStyle.css";
 
 const Entries = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState([]);
-  const [count, setCount] = useState(0);
   const [sortAscending, setSortAscending] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const remoteData = await getData();
-        setData(remoteData);
-        setCurrentPage(remoteData.slice(count, count + 10));
-        setLoading(false);
-      } catch (err) {
-        alert("Loading Failed....");
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleSort = () => {
-    setSortAscending(!sortAscending);
-    const sortedData = currentPage.sort((a, b) => {
-      if (sortAscending) {
-        return a.API.localeCompare(b.API);
-      } else {
-        return b.API.localeCompare(a.API);
-      }
-    });
-    setCurrentPage(sortedData);
-  };
-  useEffect(() => {
-    setCurrentPage(data.slice(count, count + 10));
-  }, [count]);
+  const { data, loading, currentPage, setCurrentPage, count, setCount } =
+    useEntries();
 
   if (loading) {
     return <div>Loading........</div>;
@@ -44,8 +15,18 @@ const Entries = () => {
 
   return (
     <div className="entries">
-      <h1>Show 10 data By Pageination</h1>
-      <button onClick={handleSort} id="sort">
+      <h1>Show 10 data By Pagination</h1>
+      <button
+        onClick={() =>
+          handleSort({
+            sortAscending,
+            setSortAscending,
+            currentPage,
+            setCurrentPage,
+          })
+        }
+        id="sort"
+      >
         Sort {sortAscending ? "Ascending" : "Descending"} By API
       </button>
 

@@ -1,1 +1,1 @@
-export * from './entryService.js'
+export * from './entryService'
